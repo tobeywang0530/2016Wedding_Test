@@ -1,13 +1,11 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>实用jQuery实现多宫格方块抽奖转盘代码 - JS代码网</title>
-<meta name="keywords" content="jQuery抽奖转盘,jQuery转盘抽奖,jQuery圆盘抽奖,jQuery抽奖代码,jQuery抽奖插件,jQuery方块抽奖" />
-<meta name="description" content="JS代码网提供jQuery插件,jQuery抽奖插件,jQuery圆盘抽奖插件学习教程和代码下载使用" />
+<title>謝王府訂婚宴-捧花抽抽樂!</title>
 <style type="text/css">
 #lottery{width:574px;height:584px;margin:20px auto 0;background:url(images/bg.jpg) no-repeat;padding:50px 55px;}
-#lottery table td{width:142px;height:142px;text-align:center;vertical-align:middle;font-size:24px;color:#333;font-index:-999}
+#lottery table td{width:142px;height:142px;text-align:center;vertical-align:middle;font-size:24px;}
 #lottery table td a{width:284px;height:284px;line-height:150px;display:block;text-decoration:none;}
 #lottery table td.active{background-color:#ea0000;}
 </style>
@@ -16,29 +14,42 @@
 <div id="lottery">
 	<table border="0" cellpadding="0" cellspacing="0">
 		<tr>
-			<td class="lottery-unit lottery-unit-0"><img src="images/1.png"></td>
-			<td class="lottery-unit lottery-unit-1"><img src="images/2.png"></td>
-			<td class="lottery-unit lottery-unit-2"><img src="images/4.png"></td>
-            <td class="lottery-unit lottery-unit-3"><img src="images/3.png"></td>
+			<td class="lottery-unit lottery-unit-0"><img src="images/test1.JPG" width="132px" height="132px"></td>
+			<td class="lottery-unit lottery-unit-1"><img src="images/test2.JPG" width="132px" height="132px"></td>
+			<td class="lottery-unit lottery-unit-2"><img src="images/test4.JPG" width="132px" height="132px"></td>
+            <td class="lottery-unit lottery-unit-3"><img src="images/test3.JPG" width="132px" height="132px"></td>
 		</tr>
 		<tr>
-			<td class="lottery-unit lottery-unit-11"><img src="images/7.png"></td>
-			<td colspan="2" rowspan="2"><a href=""></a></td>
-			<td class="lottery-unit lottery-unit-4"><img src="images/5.png"></td>
+			<td class="lottery-unit lottery-unit-11"><img src="images/test6.JPG" width="132px" height="132px"></td>
+			<td colspan="2" rowspan="2" ><img src="images/POKE.png" class="onstart" style="width:284px;height:284px;
+  position: relative;top: -28px;vertical-align: top;" >
+            </td>
+			<td class="lottery-unit lottery-unit-4"><img src="images/test5.JPG" width="132px" height="132px"></td>
 		</tr>
 		<tr>
-			<td class="lottery-unit lottery-unit-10"><img src="images/1.png"></td>
-			<td class="lottery-unit lottery-unit-5"><img src="images/6.png"></td>
+			<td class="lottery-unit lottery-unit-10"><img src="images/test1.JPG" width="132px" height="132px"></td>
+			<td class="lottery-unit lottery-unit-5"><img src="images/test6.JPG" width="132px" height="132px"></td>
 		</tr>
         <tr>
-			<td class="lottery-unit lottery-unit-9"><img src="images/3.png"></td>
-			<td class="lottery-unit lottery-unit-8"><img src="images/6.png"></td>
-			<td class="lottery-unit lottery-unit-7"><img src="images/8.png"></td>
-            <td class="lottery-unit lottery-unit-6"><img src="images/7.png"></td>
+			<td class="lottery-unit lottery-unit-9"><img src="images/test3.JPG" width="132px" height="132px"></td>
+			<td class="lottery-unit lottery-unit-8"><img src="images/test6.JPG" width="132px" height="132px"></td>
+			<td class="lottery-unit lottery-unit-7"><img src="images/test5.JPG" width="132px" height="132px"></td>
+            <td class="lottery-unit lottery-unit-6"><img src="images/test4.JPG" width="132px" height="132px"></td>
 		</tr>
 	</table>
 </div>
+<div>
+<p style="text-align:right;font-family:Arial;">Tobey Studio @ 2016</p>    
+</div>
+<div id="dialog" title="恭喜得獎者！！">
+    <p style="text-align:center;font-family:Microsoft JhengHei;color:red;">恭喜捧花得主，請上台領獎！</p>
+  <p style="text-align:center;vertical-align:middle;"><img class="showimg" src="" width="320px" height="320px"></p>
+    <p style="text-align:center;font-family:Microsoft JhengHei;">提醒您,婚宴進行中，請暫勿使用寶可夢哦！</p>
+</div>    
 <script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 <script type="text/javascript">
 var lottery={
 	index:-1,	//当前转动到哪个位置，起点位置
@@ -78,11 +89,13 @@ var lottery={
 function roll(){
 	lottery.times += 1;
 	lottery.roll();
+    //當timer大於圈數，prize=index時，就停止轉動
 	if (lottery.times > lottery.cycle+10 && lottery.prize==lottery.index) {
 		clearTimeout(lottery.timer);
 		lottery.prize=-1;
 		lottery.times=0;
-		click=false;
+		click=false;  
+        runover();
 	}else{
 		if (lottery.times<lottery.cycle) {
 			lottery.speed -= 10;
@@ -102,12 +115,20 @@ function roll(){
 		//console.log(lottery.times+'^^^^^^'+lottery.speed+'^^^^^^^'+lottery.prize);
 		lottery.timer = setTimeout(roll,lottery.speed);
 	}
+    //每跑一格就來一次
 	return false;
+}
+function runover()
+{
+    var findtag=$(lottery).find(".lottery-unit-"+200);
+    var src=$(".lottery-unit-"+lottery.index+" img").attr('src');
+        $(".showimg").attr("src",src);
+        $( "#dialog" ).dialog( "open" );
 }
 var click=false;
 window.onload=function(){
 	lottery.init('lottery');
-	$("#lottery a").click(function(){
+	$("#lottery .onstart").click(function(){
 		if(click) {
 			return false;
 		}
@@ -119,6 +140,22 @@ window.onload=function(){
 		}
 	});
 };
+     $( function() {
+    $( "#dialog" ).dialog({
+      autoOpen: false,
+        height:500,
+        width: 500,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+        effect: "explode",
+        duration: 1000
+      }
+    });
+ 
+  } );
 </script>
 </body>
 </html>
