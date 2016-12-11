@@ -40,8 +40,16 @@
 		</tr>
 	</table>
 </div>
-<div>
-<p style="text-align:right;font-family:Arial;">Tobey Studio @ 2016</p>    
+    <div>
+        <!--<embed src="Pok%C3%A9mon%20GO_1.mp3" autostart="false" hidden="true">!-->
+        <audio id="bgMusic">
+    <source  src="Pok%C3%A9mon%20GO_1.mp3" type="audio/mp3">
+</audio>    
+    </div>
+<div style="text-align:right;font-family:Arial;">
+    <input name="btn1" type="button" value="Tobey" onclick="playSound()" />
+    <input name="btn1" type="button" value="Studio" onclick="closeSound()" />
+<p style="text-align:right;font-family:Arial;">@ 2016</p>    
 </div>
 <div id="dialog" title="恭喜得獎者！！">
     <p style="text-align:center;font-family:Microsoft JhengHei;color:red;">恭喜捧花得主，請上台領獎！</p>
@@ -127,6 +135,18 @@ function runover()
         $(".showimg").attr("src",src);
         $( "#dialog" ).dialog( "open" );
 }
+        var audio = document.getElementById("bgMusic");
+    function playSound()
+    {
+audio.play();
+            //document.embeds[0].play();
+    }
+    function closeSound()
+    {
+        audio.pause();
+audio.currentTime = 0;
+            //document.embeds[0].stop();
+    }
 var click=false;
 window.onload=function(){
 	lottery.init('lottery');
